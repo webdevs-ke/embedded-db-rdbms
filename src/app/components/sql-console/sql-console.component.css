@@ -1,0 +1,18 @@
+.sql-console {
+    margin-top: 2rem;
+    padding: 0 1.5rem;
+    display: block;
+    border: 1px solid var(--electric-violet);
+    border-radius: 1.8rem;
+}
+
+.sql-console h2 {
+    color: var(--bright-blue);
+    text-align: center;
+}
+
+.sql-console textarea {
+    border: 1px solid var(--bright-blue);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
