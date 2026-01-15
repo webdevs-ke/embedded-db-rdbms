@@ -1,4 +1,7 @@
 import {
+    CreateDatabaseStmt,
+    UseDatabaseStmt,
+    DropDatabaseStmt,
     SqlStatement,
     CreateTableStmt,
     InsertStmt,
@@ -10,16 +13,52 @@ import {
 export class SqlParser {
     parse(sql: string): SqlStatement {
       sql = sql.trim()
-  
-      if (sql.startsWith('CREATE TABLE')) return this.parseCreate(sql)
-      if (sql.startsWith('INSERT')) return this.parseInsert(sql)
-      if (sql.startsWith('SELECT')) return this.parseSelect(sql)
-      if (sql.startsWith('UPDATE')) return this.parseUpdate(sql)
-      if (sql.startsWith('DELETE')) return this.parseDelete(sql)
+      const upper = sql.toUpperCase()
+      
+      if (upper.startsWith('CREATE DATABASE')) return this.parseCreateDatabase(sql)
+      if (upper.startsWith('DROP DATABASE')) return this.parseDropDatabase(sql)
+      if (upper === 'SHOW DATABASES') return { kind: 'SHOW_DATABASES' }
+      if (upper.startsWith('USE')) return this.parseUseDatabase(sql)
+      
+      if (upper.startsWith('CREATE TABLE')) return this.parseCreate(sql)
+      if (upper.startsWith('INSERT')) return this.parseInsert(sql)
+      if (upper.startsWith('SELECT')) return this.parseSelect(sql)
+      if (upper.startsWith('UPDATE')) return this.parseUpdate(sql)
+      if (upper.startsWith('DELETE')) return this.parseDelete(sql)
   
       throw new Error('Invalid SQL statement')
     }
   
+    private parseCreateDatabase(sql: string): CreateDatabaseStmt {
+      const [, name] = /CREATE DATABASE (\w+)/i.exec(sql) || []
+      if (!name) throw new Error('Invalid CREATE DATABASE')
+      
+      return {
+        kind: 'CREATE_DATABASE',
+        name
+      }
+    }
+      
+    private parseDropDatabase(sql: string): DropDatabaseStmt {
+      const [, name] = /DROP DATABASE (\w+)/i.exec(sql) || []
+      if (!name) throw new Error('Invalid DROP DATABASE')
+     
+      return {
+        kind: 'DROP_DATABASE',
+        name
+      }
+    }
+      
+    private parseUseDatabase(sql: string): UseDatabaseStmt {
+      const [, name] = /USE (\w+)/i.exec(sql) || []
+      if (!name) throw new Error('Invalid USE')
+     
+      return {
+        kind: 'USE_DATABASE',
+        name
+      }
+    }
+      
     private parseCreate(sql: string): CreateTableStmt {
       const [, table, cols] = /CREATE TABLE (\w+) \((.+)\)/.exec(sql)!
   
@@ -92,4 +131,4 @@ export class SqlParser {
         where: { col: col, value: val.replace(/'/g, '') }
       }
     }
-}  
+}    

@@ -1,10 +1,33 @@
 export type SqlStatement =
+  | CreateDatabaseStmt
+  | UseDatabaseStmt
+  | ShowDatabasesStmt
+  | DropDatabaseStmt
   | CreateTableStmt
   | InsertStmt
   | SelectStmt
   | UpdateStmt
   | DeleteStmt
 
+export interface CreateDatabaseStmt {
+  kind: 'CREATE_DATABASE'
+  name: string
+}
+
+export interface UseDatabaseStmt {
+  kind: 'USE_DATABASE'
+  name: string
+}
+
+export interface ShowDatabasesStmt {
+  kind: 'SHOW_DATABASES'
+}
+
+export interface DropDatabaseStmt {
+  kind: 'DROP_DATABASE'
+  name: string
+}
+  
 export interface CreateTableStmt {
   kind: 'CREATE_TABLE'
   table: string

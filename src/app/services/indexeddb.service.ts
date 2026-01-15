@@ -1,5 +1,5 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
 
 @Injectable({
   providedIn: 'root',
@@ -31,26 +31,42 @@ export class IndexedDbService {
           db.createObjectStore('tables')
         }
       }
-
       req.onsuccess = () => {
         this.db = req.result
         resolve()
       }
-
       req.onerror = () => reject(req.error)
     })
   }
 
   saveTable(name: string, data: any) {
+    if (!this.db) return
     const tx = this.db.transaction('tables', 'readwrite')
     tx.objectStore('tables').put(data, name)
   }
 
   loadTable(name: string): Promise<any> {
     return new Promise(resolve => {
+      if (!this.db) return resolve(null)
       const tx = this.db.transaction('tables')
       const req = tx.objectStore('tables').get(name)
       req.onsuccess = () => resolve(req.result)
     })
   }
+
+  async deleteByPrefix(prefix: string) {
+    const tx = this.db.transaction('tables', 'readwrite')
+    const store = tx.objectStore('tables')
+    const req = store.openCursor() 
+    req.onsuccess = () => {
+      const cursor = req.result
+      if (!cursor) return
+  
+      const key = cursor.key
+      if (typeof key === 'string' && key.startsWith(prefix)) {
+        cursor.delete()
+      }
+      cursor.continue()
+    }
+  }  
 }
