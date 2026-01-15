@@ -1,6 +1,7 @@
 .sql-console {
     margin-top: 2rem;
     padding: 0 1.5rem;
+    width:fit-content;
     display: block;
     border: 1px solid var(--electric-violet);
     border-radius: 1.8rem;

@@ -1,18 +1,18 @@
 import { Column } from "./column.model";
 
 export class Table {
-    name: string;
-    columns: Column[];
-    rows: any[] = [];
-    indexes = new Map<string, Map<any, any>>();
+    name: string
+    columns: Column[]
+    rows: any[] = []
+    indexes = new Map<string, Map<any, any>>()
   
     constructor(name: string, columns: Column[]) {
-      this.name = name;
-      this.columns = columns;
+      this.name = name
+      this.columns = columns
   
       for (const c of columns) {
         if (c.primary || c.unique) {
-          this.indexes.set(c.name, new Map());
+          this.indexes.set(c.name, new Map())
         }
       }
     }

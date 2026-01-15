@@ -178,57 +178,59 @@
   <div class="content">
     <div class="left-side">
       <svg
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 720 100"
-  class="ngdb-logo"
->
-  <defs>
-    <!-- Main gradient -->
-    <linearGradient id="grad-main" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#2563EB" />
-      <stop offset="50%" stop-color="#7C3AED" />
-      <stop offset="100%" stop-color="#EC4899" />
-    </linearGradient>
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 720 100"
+        class="ngdb-logo"
+      >
+        <defs>
+          <!-- Main gradient -->
+          <linearGradient id="grad-main" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#2563EB" />
+            <stop offset="50%" stop-color="#7C3AED" />
+            <stop offset="100%" stop-color="#EC4899" />
+          </linearGradient>
 
-    <!-- Glow -->
-    <radialGradient id="grad-glow" cx="50%" cy="50%" r="60%">
-      <stop offset="0%" stop-color="#EC4899" stop-opacity="0.6" />
-      <stop offset="100%" stop-color="#EC4899" stop-opacity="0" />
-    </radialGradient>
-  </defs>
+          <!-- Glow -->
+          <radialGradient id="grad-glow" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="#EC4899" stop-opacity="0.6" />
+            <stop offset="100%" stop-color="#EC4899" stop-opacity="0" />
+          </radialGradient>
+        </defs>
 
-  <!-- ngDB text -->
-  <text
-    x="0"
-    y="50"
-    font-size="56"
-    font-weight="700"
-    font-family="Inter, Segoe UI, Roboto, sans-serif"
-    fill="url(#grad-main)"
-    letter-spacing="-2"
-  >
-    ngDB
-  </text>
+        <!-- ngDB logo -->
+        <text
+          x="0"
+          y="50"
+          font-size="48"
+          font-weight="700"
+          font-family="Inter, Segoe UI, Roboto, sans-serif"
+          fill="url(#grad-main)"
+          letter-spacing="-2"
+        >
+          ngDB
+        </text>
 
-  <!-- ngDB text -->
-  <text
-    x="150"
-    y="47"
-    font-size="36"
-    font-weight="400"
-    font-family="Inter, Segoe UI, Roboto, sans-serif"
-    fill="url(#grad-main)"
-    letter-spacing="-2"
-  >
-    - embedded RDBMS for Angular Apps
-  </text>
-</svg>
-<hr>
-      <p>A minimal embedded RDBMS for Angular Apps</p>
-      <app-sql-console />
+        <!-- app info text -->
+        <text
+          x="125"
+          y="50"
+          font-size="30"
+          font-weight="400"
+          font-family="Inter, Segoe UI, Roboto, sans-serif"
+          fill="url(#grad-main)"
+          letter-spacing="-2"
+        >
+          - embedded RDBMS for Angular Apps
+        </text>
+      </svg>
+      <hr>
+      <p class="welcome-text">
+        A minimal embedded RDBMS for use with Angular Apps. The REPL console below allows the App developer to create offline-first, single-user databases. The database engine utilizes in-memory storage and IndexedDB persistence.
+      </p>
+      <app-sql-console></app-sql-console>
     </div>
     <div class="divider" role="separator" aria-label="Divider"></div>
-    <div class="right-side">
+  <div class="right-side">
       <div class="pill-group">
         @for (item of [
           { title: 'Explore the Docs', link: 'https://angular.dev' },
