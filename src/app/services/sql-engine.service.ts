@@ -43,7 +43,7 @@ export class SqlEngineService {
         }
       }        
 
-      case 'CREATE_TABLE':
+      case 'CREATE_TABLE': {
         await this.db.createTable(
           stmt.table,
           stmt.columns.map(c => ({
@@ -59,46 +59,47 @@ export class SqlEngineService {
           table: table.name,
           columns: table.columns
         }
+      }
   
-        case 'INSERT': {
-          const row: any = {}
-          const table = await this.db.table(stmt.table)
-          table.columns.forEach((c, i) => row[c.name] = stmt.values[i])
-        
-          const updated = await this.db.insert(stmt.table, row)        
-          return {
-            type: 'TABLE_DATA',
-            table: updated.name,
-            rows: updated.rows
-          }
-        }        
-  
-        case 'SELECT': {
-          const table = await this.db.select(stmt.table, stmt.where)
-          return {
-            type: 'TABLE_DATA',
-            table: table.name,
-            rows: table.rows
-          }
+      case 'INSERT': {
+        const row: any = {}
+        const table = await this.db.table(stmt.table)
+        table.columns.forEach((c, i) => row[c.name] = stmt.values[i])
+      
+        const updated = await this.db.insert(stmt.table, row)        
+        return {
+          type: 'TABLE_DATA',
+          table: updated.name,
+          rows: updated.rows
         }
-  
-        case 'UPDATE': {
-          const updated = await this.db.update(stmt.table, stmt.where, stmt.set)        
-          return {
-            type: 'TABLE_DATA',
-            table: updated.name,
-            rows: updated.rows
-          }
+      }        
+
+      case 'SELECT': {
+        const table = await this.db.select(stmt.table, stmt.where)
+        return {
+          type: 'TABLE_DATA',
+          table: table.name,
+          rows: table.rows
         }
-             
-        case 'DELETE': {
-          const updated = await this.db.delete(stmt.table, stmt.where)        
-          return {
-            type: 'TABLE_DATA',
-            table: updated.name,
-            rows: updated.rows
-          }
-        }        
+      }
+
+      case 'UPDATE': {
+        const updated = await this.db.update(stmt.table, stmt.where, stmt.set)        
+        return {
+          type: 'TABLE_DATA',
+          table: updated.name,
+          rows: updated.rows
+        }
+      }
+            
+      case 'DELETE': {
+        const updated = await this.db.delete(stmt.table, stmt.where)        
+        return {
+          type: 'TABLE_DATA',
+          table: updated.name,
+          rows: updated.rows
+        }
+      }        
     }
   }  
 }
