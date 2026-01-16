@@ -3,12 +3,13 @@ import { Column } from "./column.model";
 export class Table {
     name: string
     columns: Column[]
-    rows: any[] = []
+    rows: any[]
     indexes = new Map<string, Map<any, any>>()
   
-    constructor(name: string, columns: Column[]) {
+    constructor(name: string, columns: Column[], rows: any[]) {
       this.name = name
       this.columns = columns
+      this.rows = rows
   
       for (const c of columns) {
         if (c.primary || c.unique) {
@@ -40,12 +41,12 @@ export class Table {
     }
   
     update(where: { col: string; value: any }, changes: any) {
-        for (const row of this.rows) {
-          if (row[where.col] === where.value) {
-            Object.assign(row, changes)
-          }
+      for (const row of this.rows) {
+        if (row[where.col] === where.value) {
+          Object.assign(row, changes)
         }
       }
+    }
       
     delete(where: { col: string, value: any }) {
       this.rows = this.rows.filter(r => r[where.col] !== where.value)

@@ -18,9 +18,6 @@ export class IndexedDbService {
     if(typeof window === 'undefined' || !window.indexedDB) return
 
     this.opened = true
-    // if(!this.isBrowser) {
-    //   throw new Error ("IndexeDB not available outside browser")
-    // }
 
     return new Promise<void>((resolve, reject) => {
       const req = window.indexedDB.open('ng-embed-rdbms', 1)
@@ -54,6 +51,21 @@ export class IndexedDbService {
     })
   }
 
+  iterateKeys(cb: (key: IDBValidKey) => void): Promise<void> {
+    return new Promise(resolve => {
+      const tx = this.db.transaction('tables')
+      const store = tx.objectStore('tables')
+      const req = store.openCursor()
+  
+      req.onsuccess = () => {
+        const cursor = req.result
+        if (!cursor) return resolve()
+        cb(cursor.key)
+        cursor.continue()
+      }
+    })
+  }
+  
   async deleteByPrefix(prefix: string) {
     const tx = this.db.transaction('tables', 'readwrite')
     const store = tx.objectStore('tables')

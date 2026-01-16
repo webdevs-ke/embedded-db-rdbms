@@ -3,4 +3,69 @@
     <textarea [formControl]="sql" rows="10" cols="60" placeholder="Enter SQL:"></textarea>
     <div><button (click)="run()" [disabled]="sql.invalid">Run</button></div>
     <pre>{{output | json}}</pre>    
+    <hr>
+    @if (output?.type === "TABLE_SCHEMA") {
+        <div>
+            <h3>Table: {{ output.table }}</h3>      
+            <table>
+              <thead>
+                <tr>
+                  <th>Column</th>
+                  <th>Type</th>
+                  <th>Primary</th>
+                  <th>Unique</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (c of output.columns; track c.name) {
+                    <tr>
+                      <td>{{ c.name }}</td>
+                      <td>{{ c.type }}</td>
+                      <td>{{ c.primary }}</td>
+                      <td>{{ c.unique }}</td>
+                    </tr>
+                }            
+              </tbody>
+            </table>
+        </div>      
+    }
+    
+    @if (output?.type === 'TABLE_DATA') {
+        <div>
+            <h3>Table: {{ output.table }}</h3>
+            @if (output.rows.length) {
+                <table>
+                    <thead>
+                      <tr>
+                        @for (key of output.rows[0] | keyvalue; track key) {
+                            <th>
+                                {{ key.key }}
+                            </th>
+                        }                    
+                      </tr>
+                    </thead>            
+                    <tbody>
+                        @for (row of output.rows; track row) {
+                            <tr>
+                                @for (cell of row | keyvalue; track cell) {
+                                    <td>
+                                        {{ cell.value }}
+                                    </td>
+                                }                            
+                            </tr>
+                        }                  
+                    </tbody>
+                </table>
+            }
+            @if (!output.rows.length) {
+                <p>Table is empty</p>
+            }        
+        </div>      
+    }
+    
+    @if (output?.error) {
+        <div class="error">
+            {{ output.error }}
+        </div>
+    }    
 </div>

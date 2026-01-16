@@ -3,6 +3,7 @@ export type SqlStatement =
   | UseDatabaseStmt
   | ShowDatabasesStmt
   | DropDatabaseStmt
+  | ShowTablesStmt
   | CreateTableStmt
   | InsertStmt
   | SelectStmt
@@ -26,6 +27,10 @@ export interface ShowDatabasesStmt {
 export interface DropDatabaseStmt {
   kind: 'DROP_DATABASE'
   name: string
+}
+ 
+export interface ShowTablesStmt {
+  kind: 'SHOW_TABLES'
 }
   
 export interface CreateTableStmt {
