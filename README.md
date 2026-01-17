@@ -5,13 +5,13 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
 
-To get the code, clone the repository URL into your drive. Make sure you gave git installed. You can also download a zip file of the project.
+To get the code, clone the repository URL into your drive. Make sure you have git installed. You can also download a zip file of the project using the GitHub UI.
 
 Open the project in VS Code or your favorite editor - IDE
 
 # Development Environment - Node.js, npm, Angular CLI
 
-You should have Angular installed once you have installed Node.js (contains npm)
+You should have Angular installed after you have installed Node.js (contains npm).
 Once your development environment is set up, you can run the app on your machine
 
 ## Development server
@@ -68,7 +68,7 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 
 ## Additional Resources - Manual
 
-Once the app is runnning (after running #ng serve in bash, open your browser to http://localhost:4200 where you will see the live view of the app as an SQL console. You can run database queries here, create persistent databases, then create your own apps to use the databases by editting the project code.
+Once the app is runnning - after running ```bash ng serve` in bash, open your browser to http://localhost:4200 where you will see the live view of the app as an SQL console. You can run database queries here, create persistent databases, tables, and rows into browser's IndexedDB storage, then create your own apps to use the databases by editting the project code.
 
 ### Database Queries Supported
 
