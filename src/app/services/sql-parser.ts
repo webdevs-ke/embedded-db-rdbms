@@ -6,6 +6,7 @@ import {
     ShowTablesStmt,
     CreateTableStmt,
     DropTableStmt,
+    AlterTableStmt,
     InsertStmt,
     SelectStmt,
     UpdateStmt,
@@ -23,7 +24,8 @@ export class SqlParser {
       if (upper.startsWith('USE')) return this.parseUseDatabase(sql)
       if (upper === 'SHOW TABLES') return { kind: 'SHOW_TABLES' }
       if (upper.startsWith('DROP TABLE')) return this.parseDropTable(sql)
-      
+      if (upper.startsWith('ALTER TABLE')) return this.parseAlterTable(sql)
+
       if (upper.startsWith('CREATE TABLE')) return this.parseCreate(sql)
       if (upper.startsWith('INSERT')) return this.parseInsert(sql)
       if (upper.startsWith('SELECT')) return this.parseSelect(sql)
@@ -94,7 +96,61 @@ export class SqlParser {
           kind: 'DROP_TABLE',
           table
         }
-      }
+    }
+
+    private parseAlterTable(sql: string): AlterTableStmt {
+        // Normalize spacing
+        sql = sql.trim().replace(/\s+/g, ' ')
+      
+        let m = /^ALTER TABLE (\w+) ADD COLUMN (\w+) (\w+)/i.exec(sql)
+        if (m) {
+          const [, table, name, datatype] = m
+          return {
+            kind: 'ALTER_TABLE',
+            table,
+            actions: [{
+              type: 'ADD_COLUMN',
+              column: {
+                name,
+                type: datatype as any,
+                primary: false,
+                unique: false
+              }
+            }]
+          }
+        }
+      
+        m = /^ALTER TABLE (\w+) DROP COLUMN (\w+)/i.exec(sql)
+        if (m) {
+          const [, table, column] = m
+          return {
+            kind: 'ALTER_TABLE',
+            table,
+            actions: [{ type: 'DROP_COLUMN', column }]
+          }
+        }
+      
+        m = /^ALTER TABLE (\w+) RENAME COLUMN (\w+) TO (\w+)/i.exec(sql)
+        if (m) {
+          const [, table, from, to] = m
+          return {
+            kind: 'ALTER_TABLE',
+            table,
+            actions: [{ type: 'RENAME_COLUMN', from, to }]
+          }
+        }
+      
+        m = /^ALTER TABLE (\w+) RENAME TO (\w+)/i.exec(sql)
+        if (m) {
+          const [, table, to] = m
+          return {
+            kind: 'ALTER_TABLE',
+            table,
+            actions: [{ type: 'RENAME_TABLE', to }]
+          }
+        }      
+        throw new Error('Invalid ALTER TABLE syntax')
+    }      
       
     private parseInsert(sql: string): InsertStmt {
       const match = /INSERT\s+INTO\s(\w+)\s+VALUES\s*\((.+)\)\s*;?/i.exec(sql)!

@@ -96,14 +96,33 @@ export class DatabaseService {
  
   async dropTable(tableName: string): Promise<void> {
     const key = `${this.currentDB}::${tableName}`
-    const exists = this.tables.has(tableName) || await this.store.tableExists(key)
+    const exists = await this.store.tableExists(key)
   
     if (!exists) {
       throw new Error(`Table ${tableName} does not exist`)
     }
-    this.tables.delete(tableName)  // remove from memory
     await this.store.deleteTable(key)  // remove from IndexedDB
+    this.tables.delete(tableName)  // remove from memory
   }
+
+  async renameTable(oldName: string, newName: string): Promise<Table> {
+    if (this.tables.has(newName)) {
+      throw new Error('Target table already exists')
+    }
+  
+    const oldKey = `${this.currentDB}::${oldName}`
+    const newKey = `${this.currentDB}::${newName}`
+  
+    const table = await this.table(oldName)
+  
+    table.name = newName  // update table object  
+    await this.store.saveTable(newKey, table)  // persist under new key    
+    await this.store.deleteByPrefix(oldKey)  // remove old key
+    this.tables.delete(oldName)  // update in-memory map
+    this.tables.set(newName, table)
+  
+    return table
+  }  
   
   async insert(tableName: string, row: any): Promise<Table> {
     const table = await this.table(tableName)

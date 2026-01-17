@@ -1,4 +1,5 @@
-import { Column } from "./column.model";
+import { Column } from "./column.model"
+import { AlterAction } from "../services/sql-ast"
 
 export class Table {
     name: string
@@ -53,4 +54,51 @@ export class Table {
       const idx = this.indexes.get(where.col)
       if (idx) idx.delete(where.value)
     }
+
+    applyAlter(action: AlterAction) {
+      switch (action.type) {    
+        case 'ADD_COLUMN': {
+          if (this.columns.some(c => c.name === action.column.name)) {
+            throw new Error('Column already exists')
+          }    
+          this.columns.push(action.column)
+    
+          // initialize existing rows
+          for (const row of this.rows) {
+            row[action.column.name] = null
+          }
+          break
+        }
+    
+        case 'DROP_COLUMN': {
+          const idx = this.columns.findIndex(c => c.name === action.column)
+          if (idx === -1) throw new Error('Column not found')
+    
+          const col = this.columns[idx]
+          if (col.primary) throw new Error('Cannot drop PRIMARY KEY')
+    
+          this.columns.splice(idx, 1)
+          for (const row of this.rows) {
+            delete row[action.column]
+          }
+          break
+        }
+    
+        case 'RENAME_COLUMN': {
+          const col = this.columns.find(c => c.name === action.from)
+          if (!col) throw new Error('Column not found')
+    
+          if (this.columns.some(c => c.name === action.to)) {
+            throw new Error('Target column already exists')
+          }
+    
+          col.name = action.to
+          for (const row of this.rows) {
+            row[action.to] = row[action.from]
+            delete row[action.from]
+          }
+          break
+        }
+      }
+    }    
   }

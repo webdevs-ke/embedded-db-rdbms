@@ -48,6 +48,32 @@ export class SqlEngineService {
         return `Table ${stmt.table} dropped`
       }
 
+      case 'ALTER_TABLE': {
+        const action = stmt.actions[0]
+      
+        if (action.type === 'RENAME_TABLE') {
+          const table = await this.db.renameTable(stmt.table, action.to)
+          return {
+            type: 'TABLE_SCHEMA',
+            table: table.name,
+            columns: table.columns
+          }
+        }
+      
+        const table = await this.db.table(stmt.table)
+        for (const a of stmt.actions) {
+          table.applyAlter(a)
+        }
+      
+        this.db.persist(table.name)
+      
+        return {
+          type: 'TABLE_SCHEMA',
+          table: table.name,
+          columns: table.columns
+        }
+      }
+      
       case 'CREATE_TABLE': {
         await this.db.createTable(
           stmt.table,
@@ -65,7 +91,7 @@ export class SqlEngineService {
           columns: table.columns
         }
       }
-  
+    
       case 'INSERT': {
         const row: any = {}
         const table = await this.db.table(stmt.table)

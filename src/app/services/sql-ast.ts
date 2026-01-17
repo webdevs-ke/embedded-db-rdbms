@@ -1,3 +1,5 @@
+import { Column } from '../models/column.model'
+
 export type SqlStatement =
   | CreateDatabaseStmt
   | UseDatabaseStmt
@@ -6,6 +8,7 @@ export type SqlStatement =
   | ShowTablesStmt
   | CreateTableStmt
   | DropTableStmt
+  | AlterTableStmt
   | InsertStmt
   | SelectStmt
   | UpdateStmt
@@ -48,6 +51,18 @@ export interface CreateTableStmt {
 export interface DropTableStmt {
   kind: 'DROP_TABLE'
   table: string
+}
+
+export type AlterAction =
+  | { type: 'ADD_COLUMN'; column: Column }
+  | { type: 'DROP_COLUMN'; column: string }
+  | { type: 'RENAME_COLUMN'; from: string; to: string }
+  | { type: 'RENAME_TABLE'; to: string }
+
+export interface AlterTableStmt {
+  kind: 'ALTER_TABLE'
+  table: string
+  actions: AlterAction[]
 }
 
 export interface InsertStmt {
