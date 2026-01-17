@@ -5,6 +5,7 @@ import {
     DropDatabaseStmt,
     ShowTablesStmt,
     CreateTableStmt,
+    DropTableStmt,
     InsertStmt,
     SelectStmt,
     UpdateStmt,
@@ -21,6 +22,7 @@ export class SqlParser {
       if (upper === 'SHOW DATABASES') return { kind: 'SHOW_DATABASES' }
       if (upper.startsWith('USE')) return this.parseUseDatabase(sql)
       if (upper === 'SHOW TABLES') return { kind: 'SHOW_TABLES' }
+      if (upper.startsWith('DROP TABLE')) return this.parseDropTable(sql)
       
       if (upper.startsWith('CREATE TABLE')) return this.parseCreate(sql)
       if (upper.startsWith('INSERT')) return this.parseInsert(sql)
@@ -81,6 +83,19 @@ export class SqlParser {
       }
     }
   
+    private parseDropTable(sql: string): DropTableStmt {
+        const match = /DROP TABLE (\w+)/i.exec(sql)
+        if (!match) {
+          throw new Error('Invalid DROP TABLE syntax')
+        }
+      
+        const [, table] = match
+        return {
+          kind: 'DROP_TABLE',
+          table
+        }
+      }
+      
     private parseInsert(sql: string): InsertStmt {
       const match = /INSERT\s+INTO\s(\w+)\s+VALUES\s*\((.+)\)\s*;?/i.exec(sql)!
       if (!match) throw new Error(`Invalid INSERT syntax: ${sql}`)

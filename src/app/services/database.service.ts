@@ -94,6 +94,17 @@ export class DatabaseService {
     this.store.saveTable(key, this.tables.get(name))
   }
  
+  async dropTable(tableName: string): Promise<void> {
+    const key = `${this.currentDB}::${tableName}`
+    const exists = this.tables.has(tableName) || await this.store.tableExists(key)
+  
+    if (!exists) {
+      throw new Error(`Table ${tableName} does not exist`)
+    }
+    this.tables.delete(tableName)  // remove from memory
+    await this.store.deleteTable(key)  // remove from IndexedDB
+  }
+  
   async insert(tableName: string, row: any): Promise<Table> {
     const table = await this.table(tableName)
     table.insert(row)

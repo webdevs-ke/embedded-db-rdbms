@@ -5,6 +5,7 @@ export type SqlStatement =
   | DropDatabaseStmt
   | ShowTablesStmt
   | CreateTableStmt
+  | DropTableStmt
   | InsertStmt
   | SelectStmt
   | UpdateStmt
@@ -42,6 +43,11 @@ export interface CreateTableStmt {
     primary: boolean
     unique: boolean
   }[]
+}
+
+export interface DropTableStmt {
+  kind: 'DROP_TABLE'
+  table: string
 }
 
 export interface InsertStmt {

@@ -43,6 +43,11 @@ export class SqlEngineService {
         }
       }        
 
+      case 'DROP_TABLE': {
+        await this.db.dropTable(stmt.table)
+        return `Table ${stmt.table} dropped`
+      }
+
       case 'CREATE_TABLE': {
         await this.db.createTable(
           stmt.table,
