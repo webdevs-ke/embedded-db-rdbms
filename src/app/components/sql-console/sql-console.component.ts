@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, ViewChild, ElementRef, HostListener } from '@angular/core'
 import { JsonPipe, KeyValuePipe } from '@angular/common'
 import { ReactiveFormsModule, FormControl, Validators } from '@angular/forms'
 import { SqlEngineService } from '../../services/sql-engine.service'
@@ -10,14 +10,14 @@ import { SqlEngineService } from '../../services/sql-engine.service'
   styleUrl: './sql-console.component.css',
 })
 export class SqlConsoleComponent {
+  @ViewChild('sqlInput') sqlInput!: ElementRef<HTMLTextAreaElement>
+
   sql = new FormControl('', {
     nonNullable: true,
     validators: [Validators.required, Validators.minLength(5)]
   })
   
   output: any
-  isOutput: boolean = false
-
   history: string[] = []
   showHistory = false
 
@@ -35,6 +35,36 @@ export class SqlConsoleComponent {
       this.showHistory = false
     } catch (e: any) {
       this.output = {error: e.message}
+    }
+  }
+
+  focusInput () {
+    this.sqlInput.nativeElement.focus()
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown (event: KeyboardEvent) {
+    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
+    const ctrlKeyPressed = isMac ? event.metaKey : event.ctrlKey
+
+    if (ctrlKeyPressed && event.key === 'Enter') {
+      event.preventDefault()
+      this.run()
+    }
+
+    if (ctrlKeyPressed && event.key.toLowerCase() === 'l') {
+      event.preventDefault()
+      this.clear()
+    }
+
+    if (ctrlKeyPressed && event.key.toLowerCase() === 'h') {
+      event.preventDefault()
+      this.toggleHistory()
+    }
+
+    if (!ctrlKeyPressed && event.key === '/') {
+      event.preventDefault()
+      this.focusInput()
     }
   }
 

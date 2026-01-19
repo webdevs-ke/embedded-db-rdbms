@@ -1,6 +1,14 @@
 <div class="sql-console">
     <h2>SQL Console</h2>
-    <textarea [formControl]="sql" rows="10" cols="60" placeholder="Enter SQL:"></textarea>
+    <p class="hint"><span>'/' : Focus Input</span><span>'Ctrl+Enter' : Run</span><span>'Ctrl+L' : Clear</span><span>'Ctrl+H' : Toggle History</span></p>
+    <textarea 
+      #sqlInput
+      [formControl]="sql" 
+      rows="10" 
+      cols="60" 
+      placeholder="Enter SQL:"
+    ></textarea>
+
     <div class="console-btns">
         <button (click)="run()" [disabled]="sql.invalid || showHistory">RUN</button>
         <button (click)="clear()" [disabled]="!sql.value">CLEAR</button>

@@ -1,5 +1,5 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, signal } from '@angular/core'
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router'
 
 interface PillLink {
   title: string
@@ -15,7 +15,9 @@ interface PillLink {
   styleUrl: './app.css'
 })
 export class App {
+  
   pillColor = 'currentColor'
+
   pills: PillLink[] = [
     { title: 'Home - SQL Console', route: '/', pillColor: 'currentColor' },
     { title: 'About ngDB RDBMS', route: '/about/ngdb', pillColor: 'currentColor' },
@@ -23,7 +25,8 @@ export class App {
     { title: 'About IndexedDB', route: '/about/indexeddb', pillColor: 'currentColor' },
     { title: 'About Angular', route: '/about/angular', pillColor: 'currentColor' },
     { title: 'Demo Library App', route: '/demo', pillColor: 'currentColor' },
-    { title: 'About Author', external: 'https://benkatiku.netlify.app', pillColor: '#ccc' },
+    { title: 'About Author', external: 'https://benkatiku.netlify.app', pillColor: '#000' },
   ]
+
   protected readonly title = signal('Embed-RDBMS')
 }

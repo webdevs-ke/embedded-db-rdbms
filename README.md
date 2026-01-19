@@ -199,8 +199,12 @@ MIT License
 
 ## Tech Stack
 
+---
+
 ### IndexedDB
 IndexedDB is a high-performance, client-side NoSQL storage system built into modern web browsers. It is designed for storing large amounts of structured data, including files and blobs, making it a critical tool for Progressive Web Apps (PWAs) and offline-first applications. 
+
+---
 
 #### Core Characteristics
 1. NoSQL Database: It stores data as JavaScript objects rather than in fixed-column tables.
@@ -209,11 +213,15 @@ IndexedDB is a high-performance, client-side NoSQL storage system built into mod
 4. High Capacity: Unlike the 5-10MB limit of LocalStorage, IndexedDB can typically store hundreds of megabytes or even gigabytes, depending on the browser and available disk space.
 5. Same-Origin Policy: Data is strictly isolated by origin (protocol, domain, and port), meaning one website cannot access the database of another. 
 
+---
+
 #### Key Components
 1. Object Stores: Equivalent to tables in SQL; they hold records which are key-value pairs.
 2. Indexes: Specialized object stores used to look up records by properties other than the primary key (e.g., searching for a user by "email" instead of "ID").
 3. Cursors: Objects used to iterate over multiple records in an object store or index one by one to save memory.
 4. Versioning: IndexedDB includes built-in schema versioning. Structural changes (like creating a new store) can only be performed during an upgradeneeded event triggered by incrementing the version number. 
+
+---
 
 #### Popular Wrapper Libraries
 Because the native API is verbose and event-based, most developers use modern wrappers: 
@@ -221,11 +229,15 @@ Because the native API is verbose and event-based, most developers use modern wr
 * Dexie.js: A robust library that provides a more fluent, developer-friendly API and advanced features like multi-tab synchronization.
 * localForage: A simple library that uses IndexedDB by default but falls back to LocalStorage or WebSQL if necessary. 
 
+---
+
 #### Standard Implementation Pattern
 1. Open Database: Request a connection using indexedDB.open(name, version).
 2. Upgrade Schema: If the version is new, create object stores and indexes in the onupgradeneeded handler.
 3. Start Transaction: Create a transaction on one or more stores (modes: readonly or readwrite).
 4. Execute Request: Perform an operation (e.g., add(), put(), or get()) and listen for onsuccess or onerror events. 
+
+---
 
 ### Angular
 Angular is a prominent open-source web application framework developed and maintained by Google. As of January 2026, it is a leading platform for building scalable, high-performance single-page applications (SPAs) using TypeScript. 
@@ -245,6 +257,8 @@ Angular v21: Released in early 2026, this version introduced Signal Forms, enhan
 1. AI Integration: The framework now emphasizes "agentic workflows," allowing developers to use tool calling APIs to integrate Large Language Models (LLMs) directly into their web apps.
 2. Standalone APIs: Modern versions have shifted away from "NgModules" in favor of standalone components, simplifying the initial learning curve and reducing boilerplate code. 
 
+---
+
 #### Getting Started
 To begin developing with Angular, you typically need to install Node.js and the Angular CLI, which is the command-line tool used to create, build, and test applications. Official documentation and interactive tutorials can be found at https://angular.dev
 
@@ -256,10 +270,14 @@ To get the code, clone the repository URL into your drive. Make sure you have gi
 
 Open the project in VS Code or your favorite editor - IDE
 
+---
+
 # Development Environment - Node.js, npm, Angular CLI
 
 You should have Angular installed after you have installed Node.js (contains npm).
 Once your development environment is set up, you can run the app on your machine
+
+---
 
 ## Development server
 
@@ -271,8 +289,11 @@ ng serve
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
+---
 
-#### The project is still under development. Feel free to contribute your ideas
+#### The project is still under development. Some of the features mentioned, like JOIN, and File Storage, are still under development. Feel free to contribute your ideas
+
+---
+
 ### LIVE DEMO - https://ngrdbms.netlify.app
-
 ##### Created by Bernard Katiku Mutua - katikumut@gmail.com - https://benkatiku.netlify.app - https://linkedin.com/in/katiku-mutua

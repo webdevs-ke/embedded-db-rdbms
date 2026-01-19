@@ -7,15 +7,30 @@
     border-radius: 1.8rem;
 }
 
-.sql-console h2 {
+.sql-console h2, .hint span {
     color: var(--bright-blue);
     text-align: center;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 7px;
+    background: color-mix(in srgb, var(--pill-accent) 5%, transparent);
+    box-shadow: inset;
 }
 
 .sql-console textarea {
     border: 1px solid var(--bright-blue);
     border-radius: 0.5rem;
     padding: 0.5rem;
+}
+
+.hint {
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.hint span {
+    padding: 0.2rem;
+    margin-left: 0.3rem;
+    border: 1px solid rgba(0,0,0,0.3);
 }
 
 .console-btns {
