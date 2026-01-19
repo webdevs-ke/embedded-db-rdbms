@@ -38,17 +38,15 @@ export class IndexedDbService {
 
   async saveTable(name: string, data: any): Promise<void> {
     return new Promise((resolve, reject) => {
-      if (!this.db) return resolve()
-  
+      if (!this.db) return resolve()  
       const tx = this.db.transaction('tables', 'readwrite')
       tx.objectStore('tables').put(data, name)
-  
       tx.oncomplete = () => resolve()
       tx.onerror = () => reject(tx.error)
     })
   }  
 
-  loadTable(name: string): Promise<any> {
+  async loadTable(name: string): Promise<any> {
     return new Promise(resolve => {
       if (!this.db) return resolve(null)
       const tx = this.db.transaction('tables')
@@ -60,12 +58,9 @@ export class IndexedDbService {
   async deleteTable(name: string): Promise<void> {
     return new Promise((resolve, reject) => {
       if (!this.db) return resolve()
-  
       const tx = this.db.transaction('tables', 'readwrite')
       const store = tx.objectStore('tables')
-  
       store.delete(name)
-  
       tx.oncomplete = () => resolve()
       tx.onerror = () => reject(tx.error)
       tx.onabort = () => reject(tx.error)
@@ -75,7 +70,6 @@ export class IndexedDbService {
   async tableExists(name: string): Promise<boolean> {
     return new Promise(resolve => {
       if (!this.db) return resolve(false)
-  
       const tx = this.db.transaction('tables', 'readonly')
       const req = tx.objectStore('tables').get(name)
   
@@ -84,7 +78,7 @@ export class IndexedDbService {
     })
   }  
 
-  iterateKeys(cb: (key: IDBValidKey) => void): Promise<void> {
+  async iterateKeys(cb: (key: IDBValidKey) => void): Promise<void> {
     return new Promise(resolve => {
       const tx = this.db.transaction('tables')
       const store = tx.objectStore('tables')

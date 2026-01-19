@@ -99,7 +99,7 @@ export class SqlParser {
     }
 
     private parseAlterTable(sql: string): AlterTableStmt {
-        // Normalize spacing
+        // normalize spacing
         sql = sql.trim().replace(/\s+/g, ' ')
       
         let m = /^ALTER TABLE (\w+) ADD COLUMN (\w+) (\w+)/i.exec(sql)

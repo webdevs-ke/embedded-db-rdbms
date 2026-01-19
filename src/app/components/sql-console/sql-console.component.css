@@ -1,7 +1,7 @@
 .sql-console {
     margin-top: 2rem;
     padding: 0 1.5rem;
-    width:fit-content;
+    width: fit-content;
     display: block;
     border: 1px solid var(--electric-violet);
     border-radius: 1.8rem;
@@ -17,3 +17,29 @@
     border-radius: 0.5rem;
     padding: 0.5rem;
 }
+
+.console-btns {
+    border: 1px solid var(--electric-violet);
+    border-radius: 1.2rem;
+    display: flex;
+    margin: 1rem auto;
+    padding: 0.5rem 0;
+}
+
+.console-btns button {
+    margin: 0 1rem;
+}
+
+.history ul {
+    list-style: none;
+    padding: 0;
+}
+
+.history button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    padding: 4px 0;
+}
+  

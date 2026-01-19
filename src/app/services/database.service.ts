@@ -47,7 +47,6 @@ export class DatabaseService {
   }
 
   async listDatabases(): Promise<string[]> {
-    console.log('Available Databases:', this.databases.size)
     return [...this.databases]
   }  
   
@@ -70,8 +69,7 @@ export class DatabaseService {
     if (!this.databases.has(name)) return
   
     this.databases.delete(name)
-    await this.persistDatabases()
-  
+    await this.persistDatabases()  
     // delete all tables belonging to this DB
     await this.store.deleteByPrefix(`${name}::`)
   
@@ -81,7 +79,6 @@ export class DatabaseService {
   }
   
   async createTable(name: string, columns: Column[]) {
-    console.log("Creating table", name, 'on DB', this.currentDB)
     const key = `${this.currentDB}::${name}`
     if (this.tables.has(name)) return
   
@@ -90,8 +87,8 @@ export class DatabaseService {
   
     if (saved) Object.assign(table, saved)
   
-    this.tables.set(name, table)
-    this.store.saveTable(key, this.tables.get(name))
+    this.tables.set(name, table)  // insert into memory
+    await this.store.saveTable(key, this.tables.get(name))  // insert into IndexedDB (from memory)
   }
  
   async dropTable(tableName: string): Promise<void> {
@@ -108,13 +105,10 @@ export class DatabaseService {
   async renameTable(oldName: string, newName: string): Promise<Table> {
     if (this.tables.has(newName)) {
       throw new Error('Target table already exists')
-    }
-  
+    }  
     const oldKey = `${this.currentDB}::${oldName}`
-    const newKey = `${this.currentDB}::${newName}`
-  
-    const table = await this.table(oldName)
-  
+    const newKey = `${this.currentDB}::${newName}`  
+    const table = await this.table(oldName)  
     table.name = newName  // update table object  
     await this.store.saveTable(newKey, table)  // persist under new key    
     await this.store.deleteByPrefix(oldKey)  // remove old key
@@ -157,29 +151,24 @@ export class DatabaseService {
   }
   
   async table(name: string): Promise<Table> {
-    let table = this.tables.get(name)
-  
-    if (!table) {
-      table = await this.loadTable(name)
-    }  
+    let table = this.tables.get(name)  // try loading table from memory
+    if (!table)  // table does not exist in memory
+      table = await this.loadTable(name)  // try loading table from disk, i.e., IndexedDB
     return table
   }
   
   async loadTable(name: string): Promise<Table> {
-    const key = `${this.currentDB}::${name}`
-  
+    const key = `${this.currentDB}::${name}`  // tables load from current DB
     const saved = await this.store.loadTable(key)
     if (!saved) {
       throw new Error(`Table ${name} does not exist`)
     }
-  
-    const table = new Table(
+    const table = new Table(  //initialize a table model from saved table's data
       saved.name,
       saved.columns,
       saved.rows ?? []
-    )
-  
-    this.tables.set(name, table)
+    )  
+    this.tables.set(name, table)  // add table model initialized from disk to memory
     return table
   }
 }

@@ -1,0 +1,17 @@
+<h2>Register</h2>
+<input placeholder="Name" [formControl]="rname" required>
+<input placeholder="Email" [formControl]="remail" required>
+<input placeholder="Phone" [formControl]="rphone" required>
+<button (click)="onRegister()">Register</button>
+
+<h2>Login</h2>
+<input placeholder="Email" [formControl]="lemail" required>
+<input type="password" placeholder="Phone" [formControl]="lphone" required>
+<button (click)="onLogin()">Login</button>
+
+@if (user) {
+    <div>
+        Logged in as {{ user.name }}
+    </div>      
+}
+<div class="error">{{ error }}</div>

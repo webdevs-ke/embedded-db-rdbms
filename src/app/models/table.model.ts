@@ -61,8 +61,7 @@ export class Table {
           if (this.columns.some(c => c.name === action.column.name)) {
             throw new Error('Column already exists')
           }    
-          this.columns.push(action.column)
-    
+          this.columns.push(action.column)    
           // initialize existing rows
           for (const row of this.rows) {
             row[action.column.name] = null

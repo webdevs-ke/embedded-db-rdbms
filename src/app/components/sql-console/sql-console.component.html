@@ -1,11 +1,15 @@
 <div class="sql-console">
     <h2>SQL Console</h2>
     <textarea [formControl]="sql" rows="10" cols="60" placeholder="Enter SQL:"></textarea>
-    <div><button (click)="run()" [disabled]="sql.invalid">Run</button></div>
+    <div class="console-btns">
+        <button (click)="run()" [disabled]="sql.invalid || showHistory">RUN</button>
+        <button (click)="clear()" [disabled]="!sql.value">CLEAR</button>
+        <button (click)="toggleHistory()" [disabled]="!history.length">HISTORY</button>
+    </div>
     <pre>{{output | json}}</pre>    
-    <hr>
+    
     @if (output?.type === "TABLE_SCHEMA") {
-        <div>
+        <div class="output-content">
             <h3>Table: {{ output.table }}</h3>      
             <table>
               <thead>
@@ -68,4 +72,22 @@
             {{ output.error }}
         </div>
     }    
+
+    @if (showHistory) {
+        <div class="history">
+          <h3>Query History</h3>
+      
+          @if (history.length) {
+            <ul>
+              @for (q of history; track q) {
+                <li>
+                  <button type="button" (click)="loadFromHistory(q)">
+                    {{ q }}
+                  </button>
+                </li>
+              }
+            </ul>
+          }
+        </div>
+      }
 </div>

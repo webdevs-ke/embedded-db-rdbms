@@ -1,0 +1,20 @@
+@if (db.currentUser) {
+    <div>
+        <h2>My Books</h2>
+  
+        <input placeholder="Book title" [formControl]="title" required>
+        <select [formControl]="type">
+          <option [value]="1">Fiction</option>
+          <option [value]="2">Non-fiction</option>
+        </select>
+      
+        <button (click)="addBook()">Add</button>      
+        <ul>
+            @for (b of books; track b.title) {
+                <li>
+                    {{ b.title }} (type {{ b.type }})            
+                </li>
+            }
+        </ul>
+    </div>
+}

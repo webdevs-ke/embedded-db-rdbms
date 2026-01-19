@@ -18,13 +18,38 @@ export class SqlConsoleComponent {
   output: any
   isOutput: boolean = false
 
+  history: string[] = []
+  showHistory = false
+
   constructor(private engine: SqlEngineService) {}
 
   async run() {
+    const query = this.sql.value.trim()
+    if (!query) return
+
     try {
-    this.output = await this.engine.execute(this.sql.value)
+      this.output = await this.engine.execute(query)
+      if (this.history[this.history.length - 1] !== query) {
+        this.history.unshift(query)
+      }
+      this.showHistory = false
     } catch (e: any) {
       this.output = {error: e.message}
     }
+  }
+
+  clear () {
+    this.sql.reset('')
+    // this.output = null
+    this.showHistory = false
+  }
+
+  toggleHistory () {
+    this.showHistory = !this.showHistory
+  }
+
+  loadFromHistory (query: string) {
+    this.sql.setValue(query)
+    this.showHistory = false
   }
 }

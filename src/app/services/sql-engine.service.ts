@@ -17,7 +17,6 @@ export class SqlEngineService {
   }
 
   private async executeAst(stmt: SqlStatement): Promise<any> {
-    console.log('SQL statement type:', stmt.kind)
     switch (stmt.kind) {
   
       case 'CREATE_DATABASE':
@@ -63,8 +62,7 @@ export class SqlEngineService {
         const table = await this.db.table(stmt.table)
         for (const a of stmt.actions) {
           table.applyAlter(a)
-        }
-      
+        }      
         this.db.persist(table.name)
       
         return {
