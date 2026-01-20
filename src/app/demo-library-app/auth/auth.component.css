@@ -1,0 +1,122 @@
+.auth-container {
+    max-width: 440px;
+    margin: 0.5rem auto;
+    padding: 1rem;
+  }
+  
+  /* Card */
+  .auth-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 2rem;
+    box-shadow:
+      0 10px 25px rgba(0, 0, 0, 0.06),
+      0 4px 10px rgba(0, 0, 0, 0.04);
+  }
+  
+  /* Titles */
+  .auth-card h2 {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Form groups */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.25rem;
+  }
+  
+  label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: #475569;
+  }
+  
+  /* Inputs */
+  input {
+    padding: 0.7rem 0.8rem;
+    font-size: 0.95rem;
+    border-radius: 9px;
+    border: 1px solid #d1d5db;
+    background: #fff;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  
+  input::placeholder {
+    color: #9ca3af;
+  }
+  
+  input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+  
+  input.ng-touched.ng-invalid {
+    border-color: #ef4444;
+  }
+  
+  input.ng-touched.ng-invalid:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+  }
+  
+  /* Errors */
+  .error {
+    font-size: 0.75rem;
+    color: #ef4444;
+    margin-top: 0.35rem;
+  }
+  
+  .global-error {
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  /* Buttons */
+  button {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 10px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.05s, opacity 0.15s;
+  }
+  
+  button:hover {
+    opacity: 0.95;
+  }
+  
+  button:active {
+    transform: translateY(1px);
+  }
+  
+  button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  /* Divider */
+  .divider {
+    margin: 2rem 0;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #94a3b8;
+  }
+  
+  /* User info */
+  .user-card {
+    margin-top: 2rem;
+    padding: 1.25rem;
+    border-radius: 12px;
+    background: #f8fafc;
+    font-size: 0.9rem;
+  }
+  
