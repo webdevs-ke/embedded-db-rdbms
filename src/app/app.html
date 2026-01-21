@@ -10,98 +10,120 @@
       <router-outlet />
       
     </div>
+
     <div class="divider" role="separator" aria-label="Divider"></div>
-  <div class="right-side">
-    <div class="pill-group">
-      @for (item of pills; track item.title) {
-        @if (item.route) {
-          <a
-            class="pill"
-            [routerLink]="item.route"
-            routerLinkActive="active"
-          >
-            <span>{{ item.title }}</span>    
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 -960 960 960"
-              width="14"
-              height="14"
-              [attr.fill]="item.pillColor ?? pillColor"
-              aria-hidden="true"
+
+    <div class="right-side">
+      <div class="pill-group">
+        @for (item of pills; track item.title) {
+          @if (item.route) {
+            <a
+              class="pill"
+              [routerLink]="item.route"
+              routerLinkActive="active"
             >
-              <path
-                d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z"
-              />
-            </svg>
-          </a>
+              <span>{{ item.title }}</span>    
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 -960 960 960"
+                width="14"
+                height="14"
+                [attr.fill]="item.pillColor ?? pillColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z"
+                />
+              </svg>
+            </a>
+          }
+          @if (item.external) {
+            <a
+              class="pill"
+              [href]="item.external"
+              target="_blank"
+              rel="noopener"
+            >
+              <span>{{ item.title }}</span>    
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 -960 960 960"
+                width="14"
+                height="14"
+                [attr.fill]="item.pillColor ?? pillColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z"
+                />
+              </svg>
+            </a>
+          }                 
         }
-        @if (item.external) {
-          <a
-            class="pill"
-            [href]="item.external"
-            target="_blank"
-            rel="noopener"
-          >
-            <span>{{ item.title }}</span>    
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 -960 960 960"
-              width="14"
-              height="14"
-              [attr.fill]="item.pillColor ?? pillColor"
-              aria-hidden="true"
-            >
-              <path
-                d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z"
-              />
-            </svg>
-          </a>
-        }                 
-      }
-    </div>
-    
-      <div class="social-links">
-        
-        <a
-          href="https://github.com/angular/angular"
-          aria-label="Github"
-          target="_blank"
-          rel="noopener"
-        >
-          <img
-            src="/svg/github.svg"
-            alt="GitHub"
-            class="git-logo"
-          />  
-        </a>
-
-        <a
-          href="https://twitter.com/angular"
-          aria-label="Twitter"
-          target="_blank"
-          rel="noopener"
-        >
-          <img
-            src="/svg/x.svg"
-            alt="X"
-            class="x-logo"
-          />
-        </a>
-        
-        <a
-          href="https://www.youtube.com/channel/UCbn1OgGei-DV7aSRo_HaAiw"
-          aria-label="Youtube"
-          target="_blank"
-          rel="noopener"
-        >
-          <img
-            src="/svg/youtube.svg"
-            alt="Youtube"
-            class="youtube-logo"
-          />
-        </a>
-
+        <div class="demo-app-cmds">
+          <p>To create the <a routerLink='/demo' routerLinkActive="active">Demo App</a><strong> database</strong>, RUN each of these SQL Commands <br><strong>separately</strong>.</p>
+          <ol>
+            <li>CREATE DATABASE library</li>
+            <li>SHOW DATABASES <span class="subtext">[optional]</span></li>
+            <li>USE library</li>
+            <li>SHOW TABLES <span class="subtext">[optional]</span></li>
+            <li>CREATE TABLE users (id INT PRIMARY, name TEXT, email TEXT UNIQUE, <br>phone TEXT)</li>
+            <li>CREATE TABLE book_types (id INT PRIMARY, type TEXT UNIQUE)</li>
+            <li>INSERT INTO book_types VALUES (1, Fiction)</li>
+            <li>INSERT INTO book_types VALUES (2, Non-Fiction)</li>
+            <li>CREATE TABLE books (id INT PRIMARY, title TEXT UNIQUE, file BLOB, <br>typeID INT, userID INT)</li>
+          </ol>
+          <p>Once you're done, <a routerLink='/demo' routerLinkActive="active">open the demo App</a>, fill in the <strong>register form</strong> to create <br>your account. You will use this info to <strong>login</strong> to your library profile.</p>
+          <br>
+          <p><strong>NB:</strong> Although it is possible to <code>INSERT</code> your profile details using the <strong>SQL Console</strong>, <br>it is not advised since your data has to undergo validity constraint checks <br>before the Database & Persistence engines can accept and store it.</p>
+          <br>
+          <p>If you prefer, you can automate the database creation process just by<br> <a routerLink='/demo' routerLinkActive="active">opening the demo App</a> and entering your registration info which triggers the <br> creation of the <strong>library database</strong> if it doesn't already exist. </p>
+        </div>      
       </div>
     </div>
   </div>
 </main>
+
+<!-- 
+<div class="social-links">
+        
+  <a
+    href="https://github.com/angular/angular"
+    aria-label="Github"
+    target="_blank"
+    rel="noopener"
+  >
+    <img
+      src="/svg/github.svg"
+      alt="GitHub"
+      class="git-logo"
+    />  
+  </a>
+
+  <a
+    href="https://twitter.com/angular"
+    aria-label="Twitter"
+    target="_blank"
+    rel="noopener"
+  >
+    <img
+      src="/svg/x.svg"
+      alt="X"
+      class="x-logo"
+    />
+  </a>
+  
+  <a
+    href="https://www.youtube.com/channel/UCbn1OgGei-DV7aSRo_HaAiw"
+    aria-label="Youtube"
+    target="_blank"
+    rel="noopener"
+  >
+    <img
+      src="/svg/youtube.svg"
+      alt="Youtube"
+      class="youtube-logo"
+    />
+  </a>
+
+</div> -->
