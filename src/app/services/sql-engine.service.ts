@@ -104,7 +104,7 @@ export class SqlEngineService {
       }        
 
       case 'SELECT': {
-        const table = await this.db.select(stmt.table, stmt.where)
+        const table = await this.db.select(stmt.table, stmt.where, stmt.columns)
         return {
           type: 'TABLE_DATA',
           table: table.name,

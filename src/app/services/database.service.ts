@@ -139,9 +139,9 @@ export class DatabaseService {
     return table
   }
  
-  async select (tableName: string, where: any): Promise<Table> {
+  async select (tableName: string, where: any, columns: string[] = ['*']): Promise<Table> {
     const table = await this.table(tableName)
-    table.select(where)
+    table.select(where, columns)
     return table
   }
 

@@ -30,13 +30,17 @@
             Login
           </button>
         </form>
-    
-        @if (error) {
-          <div class="error global-error">{{ error }}</div>
+        
+        @if (user) {
+            <div class="user-card">
+              <strong>Logged in user</strong>
+              <div>Name: {{ user.name }}</div>
+              <div>Email: {{ user.email }}</div>
+            </div>
         }
     </div>
     
-      <div class="divider">OR</div>
+    <div class="divider">OR</div>
   
       <!-- REGISTER -->
     <div class="auth-card">
@@ -82,13 +86,10 @@
           Submit
         </button>
       </form>
+
+      @if (error) {
+        <div class="error global-error">{{ error }}</div>
+      }
     </div>
   
-    @if (user) {
-      <div class="user-card">
-        <strong>Logged in user</strong>
-        <div>Name: {{ user.name }}</div>
-        <div>Email: {{ user.email }}</div>
-      </div>
-    }  
 </div>

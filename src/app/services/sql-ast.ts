@@ -74,6 +74,7 @@ export interface InsertStmt {
 export interface SelectStmt {
   kind: 'SELECT'
   table: string
+  columns: string[]
   where?: {
     col: string
     value: any

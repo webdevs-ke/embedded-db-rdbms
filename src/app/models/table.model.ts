@@ -32,13 +32,35 @@ export class Table {
       this.rows.push(row)
     }
   
-    select(where?: { col: string, value: any }) {
-      if (!where) return this.rows
-      const idx = this.indexes.get(where.col)
-      if (idx && idx.has(where.value)) {
-        return [idx.get(where.value)]
+    select(where?: { col: string, value: any }, columns: string[] = ['*']): any[] {
+      let result: any[]
+
+      if (!where) result = [...this.rows]
+      else {
+        const idx = this.indexes.get(where.col)
+        if (idx && idx.has(where.value)) {
+          result = [idx.get(where.value)]
+        } else {
+          result = this.rows.filter(r => r[where.col] === where.value)
+        }
       }
-      return this.rows.filter(r => r[where.col] === where.value)
+      // '*' returns full rows
+      if (columns.length === 1 && columns[0] === '*') {
+        return result
+      }
+      // validate + project
+      return result.map(row => {
+        const projected: any = {}
+
+        for (const col of columns) {
+          if (!(col in row)) {
+            throw new Error(`Unknown column '${col}'`)
+          }
+          projected[col] = row[col]
+        }
+
+        return projected
+      })
     }
   
     update(where: { col: string; value: any }, changes: any) {

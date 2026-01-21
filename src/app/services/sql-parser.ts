@@ -165,13 +165,16 @@ export class SqlParser {
     }
    
     private parseSelect(sql: string): SelectStmt {
-      const match = /SELECT\s+\*\s+FROM\s+(\w+)(?:\s+WHERE\s+(\w+)\s*=\s*(.+))?\s*;?/i.exec(sql)!
+      const match = /SELECT\s+(.+?)\s+FROM\s+(\w+)(?:\s+WHERE\s+(\w+)\s*=\s*(.+))?\s*;?/i.exec(sql)
       if (!match) throw new Error(`Invalid SELECT syntax: ${sql}`)
-      const [, table, , col, val] = match
+      const [, cols, table, col, val] = match
   
       return {
         kind: 'SELECT',
         table,
+        columns: cols.trim() === '*'
+          ? ['*']
+          : cols.split(',').map(c => c.trim()),
         where: col
           ? { col, value: this.cleanValue(val) }
           : undefined
@@ -215,7 +218,11 @@ export class SqlParser {
     }      
 
     private cleanValue(v: string): string {
-      return v.trim().replace(/^'(.*)'$/, '$1')
+      if (v == null) throw new Error('Invalid WHERE clause')
+      return v
+        .trim()
+        .replace(/^'(.*)'$/, '$1')
+        .replace(/^"(.*)"$/, '$1')
     }
 
     private splitValues(input: string): string[] {

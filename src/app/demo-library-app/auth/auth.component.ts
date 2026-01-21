@@ -42,12 +42,12 @@ export class AuthComponent {
     this.registerForm = this.fb.nonNullable.group({
       name: ['', [Validators.required, Validators.minLength(5)]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.minLength(5)]],
+      phone: ['', [Validators.required, Validators.minLength(10)]],
     })
 
     this.loginForm = this.fb.nonNullable.group({
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.minLength(5)]],
+      phone: ['', [Validators.required, Validators.minLength(10)]],
     })
   }
 

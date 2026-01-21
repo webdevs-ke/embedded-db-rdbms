@@ -24,11 +24,9 @@ export class LibraryDBService {
   }
 
   async login(email: string, phone: string) {
+    const sql = `SELECT * FROM users WHERE email = '${email}'`
     await this.init()
-
-    const rows = await this.sql.execute(
-      `SELECT * FROM users WHERE email = '${email}'`
-    )
+    const rows = await this.sql.execute(`SELECT * FROM users WHERE email = '${email}'`)
 
     const user = rows.rows.find((u: any) => u.phone === phone)
     if (!user) throw new Error('Invalid credentials')
@@ -87,42 +85,18 @@ export class LibraryDBService {
   }
 
   private async createUsersTable() {
-    await this.sql.execute(`
-      CREATE TABLE users (
-        id INT PRIMARY,
-        name TEXT,
-        email TEXT UNIQUE,
-        phone TEXT
-      )
-    `)
+    await this.sql.execute(`CREATE TABLE users (id INT PRIMARY, name TEXT, email TEXT UNIQUE, phone TEXT UNIQUE)`)
   }
 
   private async createBookTypesTable() {
-    await this.sql.execute(`
-      CREATE TABLE book_types (
-        id INT PRIMARY,
-        type TEXT
-      )
-    `)
+    await this.sql.execute(`CREATE TABLE book_types (id INT PRIMARY, type TEXT UNIQUE)`)
 
-    await this.sql.execute(
-      `INSERT INTO book_types VALUES (1, 'Fiction')`
-    )
-    await this.sql.execute(
-      `INSERT INTO book_types VALUES (2, 'Non-Fiction')`
-    )
+    await this.sql.execute(`INSERT INTO book_types VALUES (1, Fiction)`)
+    await this.sql.execute(`INSERT INTO book_types VALUES (2, Non-Fiction)`)
   }
 
   private async createBooksTable() {
-    await this.sql.execute(`
-      CREATE TABLE books (
-        id INT PRIMARY,
-        title TEXT UNIQUE,
-        file BLOB,
-        typeID INT,
-        userID INT
-      )
-    `)
+    await this.sql.execute(`CREATE TABLE books (id INT PRIMARY, title TEXT UNIQUE, file BLOB, typeID INT, userID INT)`)
   }
 
   private validateUser(user: any) {
@@ -138,8 +112,8 @@ export class LibraryDBService {
       throw new Error('Invalid email format')
     }
 
-    if (typeof user.phone !== 'string' || user.phone.length < 10) {
-      throw new Error('Invalid phone number')
+    if (!(/^\d+$/.test(user.phone)) || user.phone.length !== 10) {
+      throw new Error('Phone must be a number of 10 digits')
     }
   }
 
