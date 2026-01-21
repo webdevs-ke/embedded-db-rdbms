@@ -24,8 +24,8 @@ export class App {
     { title: 'Help with SQL Commands', route: '/about/sql-help', pillColor: 'currentColor' },
     { title: 'About IndexedDB', route: '/about/indexeddb', pillColor: 'currentColor' },
     { title: 'About Angular', route: '/about/angular', pillColor: 'currentColor' },
-    { title: 'Demo Library App', route: '/demo', pillColor: 'currentColor' },
     { title: 'About Author', external: 'https://benkatiku.netlify.app', pillColor: '#000' },
+    { title: 'Demo Library App', route: '/demo', pillColor: 'currentColor' },    
   ]
 
   protected readonly title = signal('Embed-RDBMS')
