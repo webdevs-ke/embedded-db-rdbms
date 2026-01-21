@@ -4,6 +4,20 @@
     padding: 1rem;
   }
   
+.auth-container strong {
+    color: var(--bright-blue);
+    font-weight: 600;
+}
+
+.auth-container code {
+    color: var(--french-violet);
+    font-weight: 600;
+}
+
+.auth-container a {
+    color: var(--hot-red);
+    font-weight: 600;
+}
   /* Card */
   .auth-card {
     background: #ffffff;
