@@ -1,4 +1,4 @@
-export type DataType = 'INT' | 'TEXT'
+export type DataType = 'INT' | 'TEXT' | 'BLOB'
 
 export interface Column {
   name: string
