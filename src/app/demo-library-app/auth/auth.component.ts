@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { RouterLink, RouterLinkActive } from '@angular/router'
+import { Router, RouterLink, RouterLinkActive } from '@angular/router'
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -29,7 +29,8 @@ interface User {
   styleUrl: './auth.component.css',
 })
 export class AuthComponent {
-  error = ''
+  reg_error = ''
+  log_error = ''
   user: User | null = null
 
   readonly registerForm: FormGroup
@@ -37,7 +38,8 @@ export class AuthComponent {
 
   constructor(
     private fb: FormBuilder,
-    private db: LibraryDBService
+    private db: LibraryDBService,
+    private router: Router
   ) {
     this.registerForm = this.fb.nonNullable.group({
       name: ['', [Validators.required, Validators.minLength(5)]],
@@ -64,7 +66,7 @@ export class AuthComponent {
       this.registerForm.reset()
       alert('Register success!')
     } catch (e: any) {
-      this.error = e.message ?? 'Registration failed'
+      this.reg_error = e.message ?? 'Registration failed'
     }
   }
 
@@ -75,9 +77,13 @@ export class AuthComponent {
 
     try {
       this.user = await this.db.login(email, phone)
-      this.error = ''
+      this.log_error = ''
+
+      console.log('User:', this.user)
+      await this.router.navigate(['/books'])
+
     } catch (e: any) {
-      this.error = e.message ?? 'Login failed'
+      this.log_error = e.message ?? 'Login failed'
     }
   }
 }

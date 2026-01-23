@@ -37,7 +37,7 @@ export class SqlParser {
   
     private parseCreateDatabase(sql: string): CreateDatabaseStmt {
       const [, name] = /CREATE DATABASE (\w+)/i.exec(sql) || []
-      if (!name) throw new Error('Invalid CREATE DATABASE')
+      if (!name) throw new Error(`Invalid CREATE DATABASE syntax: ${sql}`)
       
       return {
         kind: 'CREATE_DATABASE',
@@ -47,7 +47,7 @@ export class SqlParser {
       
     private parseDropDatabase(sql: string): DropDatabaseStmt {
       const [, name] = /DROP DATABASE (\w+)/i.exec(sql) || []
-      if (!name) throw new Error('Invalid DROP DATABASE')
+      if (!name) throw new Error(`Invalid DROP DATABASE syntax: ${sql}`)
      
       return {
         kind: 'DROP_DATABASE',
@@ -57,7 +57,7 @@ export class SqlParser {
       
     private parseUseDatabase(sql: string): UseDatabaseStmt {
       const [, name] = /USE (\w+)/i.exec(sql) || []
-      if (!name) throw new Error('Invalid USE')
+      if (!name) throw new Error(`Invalid USE syntax: ${sql}`)
      
       return {
         kind: 'USE_DATABASE',
@@ -68,6 +68,7 @@ export class SqlParser {
     private parseCreate(sql: string): CreateTableStmt {
       const match = /CREATE\s+TABLE\s+(\w+)\s*\((.+)\)/i.exec(sql)!
       if (!match) throw new Error(`Invalid CREATE TABLE syntax: ${sql}`)
+      
       const [, table, cols] = match
   
       return {
@@ -87,9 +88,7 @@ export class SqlParser {
   
     private parseDropTable(sql: string): DropTableStmt {
         const match = /DROP TABLE (\w+)/i.exec(sql)
-        if (!match) {
-          throw new Error('Invalid DROP TABLE syntax')
-        }
+        if (!match) throw new Error(`Invalid DROP TABLE syntax: ${sql}`)
       
         const [, table] = match
         return {
@@ -149,12 +148,13 @@ export class SqlParser {
             actions: [{ type: 'RENAME_TABLE', to }]
           }
         }      
-        throw new Error('Invalid ALTER TABLE syntax')
+        throw new Error(`Invalid ALTER TABLE syntax: {$sql}`)
     }      
       
     private parseInsert(sql: string): InsertStmt {
       const match = /INSERT\s+INTO\s(\w+)\s+VALUES\s*\((.+)\)\s*;?/i.exec(sql)!
       if (!match) throw new Error(`Invalid INSERT syntax: ${sql}`)
+
       const [, table, vals] = match
   
       return {
@@ -167,6 +167,7 @@ export class SqlParser {
     private parseSelect(sql: string): SelectStmt {
       const match = /SELECT\s+(.+?)\s+FROM\s+(\w+)(?:\s+WHERE\s+(\w+)\s*=\s*(.+))?\s*;?/i.exec(sql)
       if (!match) throw new Error(`Invalid SELECT syntax: ${sql}`)
+
       const [, cols, table, col, val] = match
   
       return {
@@ -183,9 +184,8 @@ export class SqlParser {
   
     private parseUpdate(sql: string): UpdateStmt {
         const match = /UPDATE\s+(\w+)\s+SET\s+(.+?)\s+WHERE\s+(\w+)\s*=\s*(.+)\s*;?/i.exec(sql)      
-        if (!match) {
-          throw new Error(`Invalid UPDATE syntax: ${sql}`)
-        }      
+        if (!match) throw new Error(`Invalid UPDATE syntax: ${sql}`)
+
         const [, table, setPart, col, val] = match      
         const changes: Record<string, any> = {}
       
@@ -203,11 +203,9 @@ export class SqlParser {
     }
     
     private parseDelete(sql: string): DeleteStmt {
-        const match = /DELETE\s+FROM\s+(\w+)\s+WHERE\s+(\w+)\s*=\s*(.+)\s*;?/i.exec(sql)
-      
-        if (!match) {
-          throw new Error(`Invalid DELETE syntax: ${sql}`)
-        }      
+        const match = /DELETE\s+FROM\s+(\w+)\s+WHERE\s+(\w+)\s*=\s*(.+)\s*;?/i.exec(sql)      
+        if (!match) throw new Error(`Invalid DELETE syntax: ${sql}`)
+
         const [, table, col, val] = match
       
         return {

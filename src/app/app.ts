@@ -25,7 +25,7 @@ export class App {
     { title: 'About IndexedDB', route: '/about/indexeddb', pillColor: 'currentColor' },
     { title: 'About Angular', route: '/about/angular', pillColor: 'currentColor' },
     { title: 'About Author', external: 'https://benkatiku.netlify.app', pillColor: '#000' },
-    { title: 'Demo Library App', route: '/demo', pillColor: 'currentColor' },    
+    { title: 'Demo Library PWA', route: '/demo', pillColor: 'currentColor' },    
   ]
 
   protected readonly title = signal('Embed-RDBMS')

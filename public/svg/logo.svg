@@ -2,10 +2,17 @@
     <defs>
         <!-- Main gradient -->
         <linearGradient id="grad-main" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#EC4899" />
+        <stop offset="50%" stop-color="#7C3AED" />
+        <stop offset="100%" stop-color="#2563EB" />
+        </linearGradient>
+        
+        <!-- Caption gradient -->
+        <linearGradient id="grad-caption" x1="0" y1="0" x2="1" y2="0">
         <stop offset="0%" stop-color="#2563EB" />
         <stop offset="50%" stop-color="#7C3AED" />
         <stop offset="100%" stop-color="#EC4899" />
-        </linearGradient>
+        </linearGradient>        
 
         <!-- Glow -->
         <radialGradient id="grad-glow" cx="50%" cy="50%" r="60%">
@@ -20,23 +27,26 @@
         y="50"
         font-size="48"
         font-weight="700"
+        font-style="italic"
         font-family="Inter, Segoe UI, Roboto, sans-serif"
         fill="url(#grad-main)"
-        letter-spacing="-2"
+        stroke="url(#grad-glow)"
+        letter-spacing="-7"
     >
         ngDB
     </text>
 
     <!-- app info text -->
     <text
-        x="125"
+        x="115"
         y="50"
         font-size="30"
         font-weight="400"
-        font-family="Inter, Segoe UI, Roboto, sans-serif"
-        fill="url(#grad-main)"
-        letter-spacing="-2"
+        font-family="monospace, Inter, Segoe UI, Roboto, sans-serif"
+        fill="url(#grad-caption)"
+        
+        letter-spacing="1"
     >
-        - embedded RDBMS for Angular Apps
+        -:RDBMS for Angular PWAs
     </text>
 </svg>

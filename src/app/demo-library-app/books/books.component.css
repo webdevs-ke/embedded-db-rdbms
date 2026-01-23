@@ -1,0 +1,47 @@
+.header {
+    display: flex;
+    height: 4rem;
+    padding-left: 0.1rem;
+    background: color-mix(in srgb, var(--pill-accent) 5%, transparent);
+}
+
+h2 {
+    color: var(--bright-blue);
+    border-top: 0.25rem solid var(--pill-accent);
+    
+}
+
+.header h3 {
+    color: var(--bright-blue);
+    font-weight: 300;
+}
+
+.logout-btn {
+    border: 3px solid var(--electric-violet);
+    background-color: gray;
+    color: whitesmoke;
+    border-radius: 1rem;
+    box-shadow: 1rem;
+    text-align: center;
+    padding: 0.1rem 0.4rem;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 400;
+    margin: 1.1rem 2.5rem;
+    text-decoration: none;
+    height: fit-content;
+}
+
+.edit, .delete {
+    text-decoration: underline;
+}
+
+.edit {
+    color: var(--bright-blue);
+    font-size: 0.75rem;
+}
+
+.delete {
+    color: var(--vivid-pink);
+    font-size: 0.6rem;
+}

@@ -1,8 +1,8 @@
 <div class="auth-container">
     <p>A <strong>Demo Library App</strong> that utilizes <strong>ngDB RDBMS</strong>. The App requires  creation of a <code>library database</code>. It allows users to register and login, then henceforth they can add books.</p>
-    <p>Adding a book requires the user to input <code>book title, book type, and it's PDF file</code>. This data is stored inside their browser's <code>IndexedDB</code> storage system, and they can access it at any time - open PDFs to read.</p>
+    <p>Adding a book requires the user to input <code>book title, book type, and it's PDF file</code>. This data is stored inside their browser's <code>IndexedDB</code> storage system, so they can access it even when they're offline - open PDFs to read.</p>
     <p>The <code>library database</code> can be created manually by running SQL commands inside the 
-        <a class="anchor" routerLink = "/" routerLinkActive = "active">SQL Console REPL</a> for developers. The database is automatically created when a user client registers their info for the first time.</p>
+        <a class="anchor" routerLink = "/" routerLinkActive = "active">SQL Console REPL</a> - for developers. The database is automatically created when the user submits their info through the register form below for the first time.</p>
     
       <!-- LOGIN -->
     <div class="auth-card">
@@ -30,13 +30,8 @@
             Login
           </button>
         </form>
-        
-        @if (user) {
-            <div class="user-card">
-              <strong>Logged in user</strong>
-              <div>Name: {{ user.name }}</div>
-              <div>Email: {{ user.email }}</div>
-            </div>
+        @if (log_error) {
+          <div class="error global-error">{{ log_error }}</div>
         }
     </div>
     
@@ -87,8 +82,8 @@
         </button>
       </form>
 
-      @if (error) {
-        <div class="error global-error">{{ error }}</div>
+      @if (reg_error) {
+        <div class="error global-error">{{ reg_error }}</div>
       }
     </div>
   

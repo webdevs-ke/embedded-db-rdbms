@@ -1,20 +1,33 @@
 @if (db.currentUser) {
     <div>
-        <h2>My Books</h2>
-  
-        <input placeholder="Book title" [formControl]="title" required>
+        <h2>Demo Library PWA</h2>
+        <div class="header">
+            <h3>Logged in as {{ db.currentUser?.name }} </h3>
+            <a routerLink = '/demo' class="logout-btn">Logout</a>
+        </div>
+        
+        <hr>
+        <h3>My Books</h3>
+        
         <select [formControl]="type">
-          <option [value]="1">Fiction</option>
-          <option [value]="2">Non-fiction</option>
+          <option>Book Type</option>
+          @for (type of bookTypes; track type.id) {
+            <option [value]="type.id">{{ type.type }}</option>
+          }
         </select>
-      
+        <br>
+        <input placeholder="Book title" [formControl]="title" required>
+        <br>
         <button (click)="addBook()">Add</button>      
-        <ul>
-            @for (b of books; track b.title) {
-                <li>
-                    {{ b.title }} (type {{ b.type }})            
-                </li>
-            }
-        </ul>
+        
+        @if (books.length) {
+            <ul>
+                @for (b of books; track b.title) {
+                    <li>
+                        {{ b.title }} ({{ b.typeName }}) - <span class="edit">Edit</span> | <span class="delete">Delete</span>
+                    </li>
+                }
+            </ul>
+        }        
     </div>
 }

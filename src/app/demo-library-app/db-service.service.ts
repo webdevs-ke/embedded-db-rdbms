@@ -48,10 +48,14 @@ export class LibraryDBService {
 
   async myBooks() {
     await this.init()
+    const books = await this.sql.execute(`SELECT * FROM books WHERE userID = ${this.currentUser.id}`)
+    return books.rows
+  }
 
-    return this.sql.execute(
-      `SELECT * FROM books WHERE userID = ${this.currentUser.id}`
-    )
+  async bookTypes() {
+    await this.init()
+    const bookTypes = await this.sql.execute(`SELECT * FROM book_types`)
+    return bookTypes.rows
   }
   /* ---------- INIT ---------- */
   private async init() {
